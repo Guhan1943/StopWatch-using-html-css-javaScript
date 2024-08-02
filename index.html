@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="stopwatch">
+        <div class="time" id="display">00:00:00</div>
+        <button id="startStop" onclick="startStop()">Start</button>
+        <button id="reset" onclick="reset()">Reset</button>
+    </div>
+    <script>
+      let timer;
+let isRunning = false;
+let [hours, minutes, seconds] = [0, 0, 0];
+
+function startStop() {
+    if (!isRunning) {
+        timer = setInterval(updateTime, 1000);
+        document.getElementById('startStop').textContent = 'Stop';
+        isRunning = true;
+    } else {
+        clearInterval(timer);
+        document.getElementById('startStop').textContent = 'Start';
+        isRunning = false;
+    }
+}
+
+function updateTime() {
+    seconds++;
+    if (seconds === 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes === 60) {
+            minutes = 0;
+            hours++;
+        }
+    }
+    displayTime();
+}
+
+function displayTime() {
+    const display = document.getElementById('display');
+    display.textContent = 
+        (hours < 10 ? '0' + hours : hours) + ':' + 
+        (minutes < 10 ? '0' + minutes : minutes) + ':' + 
+        (seconds < 10 ? '0' + seconds : seconds);
+}
+
+function reset() {
+    clearInterval(timer);
+    [hours, minutes, seconds] = [0, 0, 0];
+    displayTime();
+    document.getElementById('startStop').textContent = 'Start';
+    isRunning = false;
+}
+    </script>
+</body>
+</html>
